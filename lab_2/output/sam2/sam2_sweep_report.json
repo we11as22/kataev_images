@@ -1,0 +1,37 @@
+[
+  {
+    "name": "iou_0.70",
+    "points_per_side": 16,
+    "pred_iou_thresh": 0.7,
+    "stability_score_thresh": 0.88,
+    "num_masks": 11
+  },
+  {
+    "name": "iou_0.82",
+    "points_per_side": 24,
+    "pred_iou_thresh": 0.82,
+    "stability_score_thresh": 0.92,
+    "num_masks": 10
+  },
+  {
+    "name": "iou_0.92",
+    "points_per_side": 24,
+    "pred_iou_thresh": 0.92,
+    "stability_score_thresh": 0.96,
+    "num_masks": 3
+  },
+  {
+    "name": "points_16",
+    "points_per_side": 16,
+    "pred_iou_thresh": 0.82,
+    "stability_score_thresh": 0.92,
+    "num_masks": 5
+  },
+  {
+    "name": "points_32",
+    "points_per_side": 32,
+    "pred_iou_thresh": 0.82,
+    "stability_score_thresh": 0.92,
+    "num_masks": 12
+  }
+]
