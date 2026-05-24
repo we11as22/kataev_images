@@ -1,0 +1,20 @@
+{
+  "method": "SAM2.1 automatic mask generator",
+  "num_masks": 10,
+  "points_per_side": 24,
+  "pred_iou_thresh": 0.82,
+  "stability_score_thresh": 0.92,
+  "scale": 0.3742690058479532,
+  "top_areas": [
+    1395410,
+    1388514,
+    1213126,
+    12605,
+    7525,
+    3331,
+    2343,
+    1810,
+    1454,
+    1297
+  ]
+}

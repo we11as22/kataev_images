@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+*.egg-info/
+.venv/
+venv/
+
+# SAM 2 checkpoints (>100 MB, GitHub limit) — download locally, see lab_2/checkpoints/README.md
+lab_2/checkpoints/*.pt
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/

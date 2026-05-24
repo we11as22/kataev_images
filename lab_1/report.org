@@ -1,0 +1,59 @@
+#+LANGUAGE: ru
+#+LATEX_HEADER: \usepackage{fontspec}
+#+LATEX_HEADER: \usepackage{polyglossia}
+#+LATEX_HEADER: \setdefaultlanguage{russian}
+#+LATEX_HEADER: \setmainfont{DejaVu Serif}
+#+LATEX_HEADER: \setsansfont{DejaVu Sans}
+#+LATEX_HEADER: \setmonofont{DejaVu Sans Mono}
+#+LATEX_CLASS: extarticle
+#+LATEX_CLASS_OPTIONS: [a4paper,14pt]
+#+OPTIONS: toc:nil
+
+#+begin_center
+МФТИ\
+\vspace{6cm}
+\textbf{Лабораторная работа 1}\
+\vspace{0.6cm}
+\textbf{Обработка изображений}\
+\vspace{4cm}
+\textbf{Судаков Алексей}\
+\vspace{8cm}
+Долгопрудный\
+2026
+\pagebreak
+#+end_center
+
+* Анализ гистограмм типов поверхности
+На исходном изображении выделены дорога, трава, поле и столбики в поле. Для каждого типа выбрано по 12 блоков размером 18x18 пикселей.
+[[file:img/task_1/full_pic.jpg]]
+[[file:img/task_1/road.jpg]]
+[[file:img/task_1/grass.jpg]]
+[[file:img/task_1/field.jpg]]
+[[file:img/task_1/stakes.jpg]]
+[[file:img/histogram_whole_image.png]]
+[[file:img/histograms_selected_blocks.png]]
+
+* Статистический анализ: среднее и дисперсия
+Полная таблица измерений сохранена в measurements.xlsx и measurements.csv.
+[[file:img/selected_blocks_overview.png]]
+[[file:img/sample_blocks_montage.png]]
+[[file:img/mean_and_error.png]]
+[[file:img/mean_and_error_Grey.png]]
+[[file:img/mean_and_error_Red.png]]
+[[file:img/mean_and_error_Green.png]]
+[[file:img/mean_and_error_Blue.png]]
+
+* Анализ разрешимости
+[[file:img/rgb_color_field_3d.png]]
+[[file:img/rgb_pairwise_scatter.png]]
+
+* Применённые преобразования
+[[file:img/task_2/swap_colors_histograms.png]]
+[[file:img/task_2/contrast_histograms.png]]
+[[file:img/task_2/auto_adjust_col.jpg]]
+[[file:img/task_2/col_corect.jpg]]
+[[file:img/task_2/conv_to_grey_scale.jpg]]
+[[file:img/task_2/effect_pixelize.jpg]]
+
+* Выводы
+Трава, дорога, поле и столбики в поле разделяются по средним значениям RGB и дисперсии. Наиболее устойчиво выделяются трава и столбики, а дорога и поле частично пересекаются по красному каналу.
