@@ -2,28 +2,1510 @@
   "version": "5.0.1",
   "flags": {},
   "shapes": [
-    {"label": "Дорога", "points": [[1880, 180], [2520, 620]], "group_id": null, "shape_type": "rectangle", "flags": {}},
-    {"label": "Дорога", "points": [[1920, 900], [2480, 1380]], "group_id": null, "shape_type": "rectangle", "flags": {}},
-    {"label": "Дорога", "points": [[1980, 1680], [2440, 2140]], "group_id": null, "shape_type": "rectangle", "flags": {}},
-    {"label": "Дорога", "points": [[2000, 2480], [2420, 2920]], "group_id": null, "shape_type": "rectangle", "flags": {}},
-    {"label": "Дорога", "points": [[2050, 3100], [2380, 3500]], "group_id": null, "shape_type": "rectangle", "flags": {}},
-
-    {"label": "Зелёное поле", "points": [[120, 120], [980, 720]], "group_id": null, "shape_type": "rectangle", "flags": {}},
-    {"label": "Зелёное поле", "points": [[80, 900], [920, 1500]], "group_id": null, "shape_type": "rectangle", "flags": {}},
-    {"label": "Зелёное поле", "points": [[140, 1700], [860, 2300]], "group_id": null, "shape_type": "rectangle", "flags": {}},
-    {"label": "Зелёное поле", "points": [[100, 2500], [900, 3100]], "group_id": null, "shape_type": "rectangle", "flags": {}},
-    {"label": "Зелёное поле", "points": [[160, 3180], [880, 3580]], "group_id": null, "shape_type": "rectangle", "flags": {}},
-
-    {"label": "Убранное поле", "points": [[3000, 140], [5200, 680]], "group_id": null, "shape_type": "rectangle", "flags": {}},
-    {"label": "Убранное поле", "points": [[3200, 820], [5300, 1320]], "group_id": null, "shape_type": "rectangle", "flags": {}},
-    {"label": "Убранное поле", "points": [[3100, 1500], [5400, 2020]], "group_id": null, "shape_type": "rectangle", "flags": {}},
-    {"label": "Убранное поле", "points": [[3050, 2200], [5350, 2720]], "group_id": null, "shape_type": "rectangle", "flags": {}},
-    {"label": "Убранное поле", "points": [[3150, 2900], [5250, 3450]], "group_id": null, "shape_type": "rectangle", "flags": {}},
-
-    {"label": "Кусты", "points": [[2520, 2600], [3120, 3180]], "group_id": null, "shape_type": "rectangle", "flags": {}},
-    {"label": "Кусты", "points": [[2580, 1500], [3060, 1980]], "group_id": null, "shape_type": "rectangle", "flags": {}},
-    {"label": "Кусты", "points": [[2620, 420], [3080, 860]], "group_id": null, "shape_type": "rectangle", "flags": {}},
-    {"label": "Кусты", "points": [[2480, 3300], [3000, 3580]], "group_id": null, "shape_type": "rectangle", "flags": {}}
+    {
+      "label": "Зелёное поле",
+      "points": [
+        [
+          380.0,
+          300.0
+        ],
+        [
+          720.0,
+          600.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Зелёное поле",
+      "points": [
+        [
+          755.0,
+          300.0
+        ],
+        [
+          1095.0,
+          600.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Зелёное поле",
+      "points": [
+        [
+          1130.0,
+          300.0
+        ],
+        [
+          1470.0,
+          600.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Зелёное поле",
+      "points": [
+        [
+          1505.0,
+          300.0
+        ],
+        [
+          1845.0,
+          600.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Зелёное поле",
+      "points": [
+        [
+          1880.0,
+          300.0
+        ],
+        [
+          2220.0,
+          600.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Зелёное поле",
+      "points": [
+        [
+          380.0,
+          714.0
+        ],
+        [
+          720.0,
+          1014.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Зелёное поле",
+      "points": [
+        [
+          755.0,
+          714.0
+        ],
+        [
+          1095.0,
+          1014.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Зелёное поле",
+      "points": [
+        [
+          1130.0,
+          714.0
+        ],
+        [
+          1470.0,
+          1014.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Зелёное поле",
+      "points": [
+        [
+          1505.0,
+          714.0
+        ],
+        [
+          1845.0,
+          1014.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Зелёное поле",
+      "points": [
+        [
+          1880.0,
+          714.0
+        ],
+        [
+          2220.0,
+          1014.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Зелёное поле",
+      "points": [
+        [
+          380.0,
+          1128.0
+        ],
+        [
+          720.0,
+          1428.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Зелёное поле",
+      "points": [
+        [
+          755.0,
+          1128.0
+        ],
+        [
+          1095.0,
+          1428.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Зелёное поле",
+      "points": [
+        [
+          1130.0,
+          1128.0
+        ],
+        [
+          1470.0,
+          1428.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Зелёное поле",
+      "points": [
+        [
+          1505.0,
+          1128.0
+        ],
+        [
+          1845.0,
+          1428.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Зелёное поле",
+      "points": [
+        [
+          1880.0,
+          1128.0
+        ],
+        [
+          2220.0,
+          1428.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Зелёное поле",
+      "points": [
+        [
+          380.0,
+          1542.0
+        ],
+        [
+          720.0,
+          1842.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Зелёное поле",
+      "points": [
+        [
+          755.0,
+          1542.0
+        ],
+        [
+          1095.0,
+          1842.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Зелёное поле",
+      "points": [
+        [
+          1130.0,
+          1542.0
+        ],
+        [
+          1470.0,
+          1842.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Зелёное поле",
+      "points": [
+        [
+          1505.0,
+          1542.0
+        ],
+        [
+          1845.0,
+          1842.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Зелёное поле",
+      "points": [
+        [
+          1880.0,
+          1542.0
+        ],
+        [
+          2220.0,
+          1842.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Зелёное поле",
+      "points": [
+        [
+          380.0,
+          1957.0
+        ],
+        [
+          720.0,
+          2257.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Зелёное поле",
+      "points": [
+        [
+          755.0,
+          1957.0
+        ],
+        [
+          1095.0,
+          2257.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Зелёное поле",
+      "points": [
+        [
+          1130.0,
+          1957.0
+        ],
+        [
+          1470.0,
+          2257.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Зелёное поле",
+      "points": [
+        [
+          1505.0,
+          1957.0
+        ],
+        [
+          1845.0,
+          2257.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Зелёное поле",
+      "points": [
+        [
+          1880.0,
+          1957.0
+        ],
+        [
+          2220.0,
+          2257.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Зелёное поле",
+      "points": [
+        [
+          380.0,
+          2371.0
+        ],
+        [
+          720.0,
+          2671.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Зелёное поле",
+      "points": [
+        [
+          755.0,
+          2371.0
+        ],
+        [
+          1095.0,
+          2671.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Зелёное поле",
+      "points": [
+        [
+          1130.0,
+          2371.0
+        ],
+        [
+          1470.0,
+          2671.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Зелёное поле",
+      "points": [
+        [
+          1505.0,
+          2371.0
+        ],
+        [
+          1845.0,
+          2671.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Зелёное поле",
+      "points": [
+        [
+          1880.0,
+          2371.0
+        ],
+        [
+          2220.0,
+          2671.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Зелёное поле",
+      "points": [
+        [
+          380.0,
+          2785.0
+        ],
+        [
+          720.0,
+          3085.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Зелёное поле",
+      "points": [
+        [
+          755.0,
+          2785.0
+        ],
+        [
+          1095.0,
+          3085.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Зелёное поле",
+      "points": [
+        [
+          1130.0,
+          2785.0
+        ],
+        [
+          1470.0,
+          3085.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Зелёное поле",
+      "points": [
+        [
+          1505.0,
+          2785.0
+        ],
+        [
+          1845.0,
+          3085.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Зелёное поле",
+      "points": [
+        [
+          1880.0,
+          2785.0
+        ],
+        [
+          2220.0,
+          3085.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Зелёное поле",
+      "points": [
+        [
+          380.0,
+          3200.0
+        ],
+        [
+          720.0,
+          3500.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Зелёное поле",
+      "points": [
+        [
+          755.0,
+          3200.0
+        ],
+        [
+          1095.0,
+          3500.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Зелёное поле",
+      "points": [
+        [
+          1130.0,
+          3200.0
+        ],
+        [
+          1470.0,
+          3500.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Зелёное поле",
+      "points": [
+        [
+          1505.0,
+          3200.0
+        ],
+        [
+          1845.0,
+          3500.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Зелёное поле",
+      "points": [
+        [
+          1880.0,
+          3200.0
+        ],
+        [
+          2220.0,
+          3500.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Дорога",
+      "points": [
+        [
+          2790.0,
+          260.0
+        ],
+        [
+          3030.0,
+          540.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Дорога",
+      "points": [
+        [
+          2790.0,
+          751.0
+        ],
+        [
+          3030.0,
+          1031.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Дорога",
+      "points": [
+        [
+          2790.0,
+          1243.0
+        ],
+        [
+          3030.0,
+          1523.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Дорога",
+      "points": [
+        [
+          2790.0,
+          1735.0
+        ],
+        [
+          3030.0,
+          2015.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Дорога",
+      "points": [
+        [
+          2790.0,
+          2226.0
+        ],
+        [
+          3030.0,
+          2506.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Дорога",
+      "points": [
+        [
+          2790.0,
+          2718.0
+        ],
+        [
+          3030.0,
+          2998.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Дорога",
+      "points": [
+        [
+          2790.0,
+          3210.0
+        ],
+        [
+          3030.0,
+          3490.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Кусты",
+      "points": [
+        [
+          2510.0,
+          370.0
+        ],
+        [
+          2710.0,
+          630.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Кусты",
+      "points": [
+        [
+          2510.0,
+          836.0
+        ],
+        [
+          2710.0,
+          1096.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Кусты",
+      "points": [
+        [
+          2510.0,
+          1303.0
+        ],
+        [
+          2710.0,
+          1563.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Кусты",
+      "points": [
+        [
+          2510.0,
+          1770.0
+        ],
+        [
+          2710.0,
+          2030.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Кусты",
+      "points": [
+        [
+          2510.0,
+          2236.0
+        ],
+        [
+          2710.0,
+          2496.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Кусты",
+      "points": [
+        [
+          2510.0,
+          2703.0
+        ],
+        [
+          2710.0,
+          2963.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Кусты",
+      "points": [
+        [
+          2510.0,
+          3170.0
+        ],
+        [
+          2710.0,
+          3430.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Убранное поле",
+      "points": [
+        [
+          3280.0,
+          300.0
+        ],
+        [
+          3620.0,
+          600.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Убранное поле",
+      "points": [
+        [
+          3692.0,
+          300.0
+        ],
+        [
+          4032.0,
+          600.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Убранное поле",
+      "points": [
+        [
+          4105.0,
+          300.0
+        ],
+        [
+          4445.0,
+          600.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Убранное поле",
+      "points": [
+        [
+          4517.0,
+          300.0
+        ],
+        [
+          4857.0,
+          600.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Убранное поле",
+      "points": [
+        [
+          4930.0,
+          300.0
+        ],
+        [
+          5270.0,
+          600.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Убранное поле",
+      "points": [
+        [
+          3280.0,
+          714.0
+        ],
+        [
+          3620.0,
+          1014.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Убранное поле",
+      "points": [
+        [
+          3692.0,
+          714.0
+        ],
+        [
+          4032.0,
+          1014.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Убранное поле",
+      "points": [
+        [
+          4105.0,
+          714.0
+        ],
+        [
+          4445.0,
+          1014.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Убранное поле",
+      "points": [
+        [
+          4517.0,
+          714.0
+        ],
+        [
+          4857.0,
+          1014.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Убранное поле",
+      "points": [
+        [
+          4930.0,
+          714.0
+        ],
+        [
+          5270.0,
+          1014.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Убранное поле",
+      "points": [
+        [
+          3280.0,
+          1128.0
+        ],
+        [
+          3620.0,
+          1428.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Убранное поле",
+      "points": [
+        [
+          3692.0,
+          1128.0
+        ],
+        [
+          4032.0,
+          1428.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Убранное поле",
+      "points": [
+        [
+          4105.0,
+          1128.0
+        ],
+        [
+          4445.0,
+          1428.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Убранное поле",
+      "points": [
+        [
+          4517.0,
+          1128.0
+        ],
+        [
+          4857.0,
+          1428.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Убранное поле",
+      "points": [
+        [
+          4930.0,
+          1128.0
+        ],
+        [
+          5270.0,
+          1428.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Убранное поле",
+      "points": [
+        [
+          3280.0,
+          1542.0
+        ],
+        [
+          3620.0,
+          1842.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Убранное поле",
+      "points": [
+        [
+          3692.0,
+          1542.0
+        ],
+        [
+          4032.0,
+          1842.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Убранное поле",
+      "points": [
+        [
+          4105.0,
+          1542.0
+        ],
+        [
+          4445.0,
+          1842.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Убранное поле",
+      "points": [
+        [
+          4517.0,
+          1542.0
+        ],
+        [
+          4857.0,
+          1842.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Убранное поле",
+      "points": [
+        [
+          4930.0,
+          1542.0
+        ],
+        [
+          5270.0,
+          1842.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Убранное поле",
+      "points": [
+        [
+          3280.0,
+          1957.0
+        ],
+        [
+          3620.0,
+          2257.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Убранное поле",
+      "points": [
+        [
+          3692.0,
+          1957.0
+        ],
+        [
+          4032.0,
+          2257.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Убранное поле",
+      "points": [
+        [
+          4105.0,
+          1957.0
+        ],
+        [
+          4445.0,
+          2257.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Убранное поле",
+      "points": [
+        [
+          4517.0,
+          1957.0
+        ],
+        [
+          4857.0,
+          2257.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Убранное поле",
+      "points": [
+        [
+          4930.0,
+          1957.0
+        ],
+        [
+          5270.0,
+          2257.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Убранное поле",
+      "points": [
+        [
+          3280.0,
+          2371.0
+        ],
+        [
+          3620.0,
+          2671.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Убранное поле",
+      "points": [
+        [
+          3692.0,
+          2371.0
+        ],
+        [
+          4032.0,
+          2671.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Убранное поле",
+      "points": [
+        [
+          4105.0,
+          2371.0
+        ],
+        [
+          4445.0,
+          2671.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Убранное поле",
+      "points": [
+        [
+          4517.0,
+          2371.0
+        ],
+        [
+          4857.0,
+          2671.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Убранное поле",
+      "points": [
+        [
+          4930.0,
+          2371.0
+        ],
+        [
+          5270.0,
+          2671.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Убранное поле",
+      "points": [
+        [
+          3280.0,
+          2785.0
+        ],
+        [
+          3620.0,
+          3085.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Убранное поле",
+      "points": [
+        [
+          3692.0,
+          2785.0
+        ],
+        [
+          4032.0,
+          3085.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Убранное поле",
+      "points": [
+        [
+          4105.0,
+          2785.0
+        ],
+        [
+          4445.0,
+          3085.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Убранное поле",
+      "points": [
+        [
+          4517.0,
+          2785.0
+        ],
+        [
+          4857.0,
+          3085.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Убранное поле",
+      "points": [
+        [
+          4930.0,
+          2785.0
+        ],
+        [
+          5270.0,
+          3085.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Убранное поле",
+      "points": [
+        [
+          3280.0,
+          3200.0
+        ],
+        [
+          3620.0,
+          3500.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Убранное поле",
+      "points": [
+        [
+          3692.0,
+          3200.0
+        ],
+        [
+          4032.0,
+          3500.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Убранное поле",
+      "points": [
+        [
+          4105.0,
+          3200.0
+        ],
+        [
+          4445.0,
+          3500.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Убранное поле",
+      "points": [
+        [
+          4517.0,
+          3200.0
+        ],
+        [
+          4857.0,
+          3500.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "Убранное поле",
+      "points": [
+        [
+          4930.0,
+          3200.0
+        ],
+        [
+          5270.0,
+          3500.0
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    }
   ],
   "imagePath": "../IMAGES/грунт дорога пое зеленое и убранное.tiff",
   "imageData": null,

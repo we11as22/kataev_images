@@ -1,10 +1,8 @@
-"""Extract square patches from labelme rectangle annotations."""
+"""Extract square patches from labelme rectangle annotations (center of each box)."""
 from __future__ import annotations
 
 import json
-import random
 import shutil
-from pathlib import Path
 
 import numpy as np
 from PIL import Image
@@ -18,25 +16,6 @@ def box_center(points: list[list[float]]) -> tuple[int, int]:
     xs = [p[0] for p in points]
     ys = [p[1] for p in points]
     return int((min(xs) + max(xs)) / 2), int((min(ys) + max(ys)) / 2)
-
-
-def sample_points_in_box(points: list[list[float]], n: int, rng: random.Random) -> list[tuple[int, int]]:
-    xs = [p[0] for p in points]
-    ys = [p[1] for p in points]
-    x0, x1 = int(min(xs)), int(max(xs))
-    y0, y1 = int(min(ys)), int(max(ys))
-    half = config.PATCH_SIZE // 2
-    samples: list[tuple[int, int]] = []
-    for _ in range(n * 4):
-        if len(samples) >= n:
-            break
-        cx = rng.randint(x0 + half, max(x0 + half, x1 - half))
-        cy = rng.randint(y0 + half, max(y0 + half, y1 - half))
-        if (cx, cy) not in samples:
-            samples.append((cx, cy))
-    if not samples:
-        samples.append(box_center(points))
-    return samples[:n]
 
 
 def extract_patch(arr: np.ndarray, cx: int, cy: int, size: int) -> np.ndarray | None:
@@ -60,7 +39,6 @@ def _save_source_preview(arr: np.ndarray) -> None:
 
 def main() -> None:
     config.ensure_dirs()
-    rng = random.Random(config.SEED)
     meta = json.loads(config.LABELME_JSON.read_text(encoding="utf-8"))
 
     if config.DATASET.exists():
@@ -69,7 +47,8 @@ def main() -> None:
         (config.DATASET / cls).mkdir(parents=True)
 
     with Image.open(config.IMAGE_PATH) as im:
-        arr = np.asarray(im.convert("RGB"))
+        full_w, full_h = im.size
+    arr, scale = config.load_rgb_array()
     _save_source_preview(arr)
 
     stats: dict[str, int] = {cls: 0 for cls in config.CLASSES}
@@ -79,21 +58,24 @@ def main() -> None:
         label = shape["label"]
         if label not in config.CLASSES:
             continue
-        for cx, cy in sample_points_in_box(shape["points"], config.PATCHES_PER_BOX, rng):
-            patch = extract_patch(arr, cx, cy, config.PATCH_SIZE)
-            if patch is None:
-                continue
-            idx = stats[label]
-            fname = f"{label.replace(' ', '_')}_{idx:03d}.jpg"
-            out_path = config.DATASET / label / fname
-            Image.fromarray(patch).save(out_path, quality=95)
-            manifest.append({"file": str(out_path.relative_to(config.ROOT)), "class": label, "cx": cx, "cy": cy})
-            stats[label] += 1
+        cx, cy = box_center(shape["points"])
+        cx, cy = int(cx * scale), int(cy * scale)
+        patch = extract_patch(arr, cx, cy, config.PATCH_SIZE)
+        if patch is None:
+            continue
+        idx = stats[label]
+        fname = f"{label.replace(' ', '_')}_{idx:03d}.jpg"
+        out_path = config.DATASET / label / fname
+        Image.fromarray(patch).save(out_path, quality=95)
+        manifest.append({"file": str(out_path.relative_to(config.ROOT)), "class": label, "cx": cx, "cy": cy})
+        stats[label] += 1
 
     summary = {
         "image": config.IMAGE_NAME,
         "patch_size": config.PATCH_SIZE,
-        "patches_per_box": config.PATCHES_PER_BOX,
+        "mode": "center_of_rectangle",
+        "infer_scale": scale,
+        "full_size": [full_w, full_h],
         "counts": stats,
         "total": sum(stats.values()),
         "patches": manifest,

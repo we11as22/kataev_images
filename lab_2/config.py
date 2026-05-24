@@ -27,7 +27,6 @@ SAM2_CHECKPOINT_URL = (
 )
 
 PATCH_SIZE = 128
-PATCHES_PER_BOX = 12
 SEED = 42
 
 CLASSES = ["Дорога", "Зелёное поле", "Убранное поле", "Кусты"]
@@ -38,10 +37,13 @@ CLASS_COLORS = {
     "Кусты": (30, 100, 30),
 }
 
-CNN_EPOCHS = 30
-CNN_BATCH_SIZE = 32
-CNN_LR = 1e-3
-CNN_TRAIN_RATIO = 0.75
+CNN_EPOCHS = 50
+CNN_BATCH_SIZE = 16
+CNN_LR = 5e-4
+CNN_WEIGHT_DECAY = 1e-4
+CNN_LABEL_SMOOTHING = 0.05
+CNN_TRAIN_RATIO = 0.8
+CNN_EARLY_STOP_PATIENCE = 12
 CNN_MODEL_PATH = MODELS / "cnn_best.pt"
 CNN_INPUT_SIZE = 128
 
@@ -65,6 +67,22 @@ def ensure_dirs() -> None:
         CHECKPOINTS,
     ):
         path.mkdir(parents=True, exist_ok=True)
+
+
+def load_rgb_array(max_side: int | None = None) -> tuple["np.ndarray", float]:
+    """Load image, optionally downscale — same path for training patches and inference."""
+    import numpy as np
+    from PIL import Image
+
+    Image.MAX_IMAGE_PIXELS = None
+    max_side = max_side or INFER_MAX_SIDE
+    with Image.open(IMAGE_PATH) as im:
+        im = im.convert("RGB")
+        w, h = im.size
+        scale = min(1.0, max_side / max(w, h))
+        if scale < 1.0:
+            im = im.resize((int(w * scale), int(h * scale)), Image.Resampling.LANCZOS)
+        return np.asarray(im).copy(), scale
 
 
 def sam2_repo_hint() -> Path:

@@ -79,18 +79,19 @@ def split_items(items: list[tuple[Path, int]], ratio: float):
     train, val = [], []
     for cls_items in by_class.values():
         rng.shuffle(cls_items)
-        n = max(1, int(len(cls_items) * ratio))
-        train.extend(cls_items[:n])
-        val.extend(cls_items[n:])
+        n_train = max(2, int(len(cls_items) * ratio))
+        if n_train >= len(cls_items):
+            n_train = max(1, len(cls_items) - 1)
+        train.extend(cls_items[:n_train])
+        val.extend(cls_items[n_train:])
     rng.shuffle(train)
     rng.shuffle(val)
     return train, val
 
 
 @torch.no_grad()
-def evaluate(model: nn.Module, loader: DataLoader) -> tuple[float, float]:
+def evaluate(model: nn.Module, loader: DataLoader, criterion: nn.Module) -> tuple[float, float]:
     model.eval()
-    criterion = nn.CrossEntropyLoss()
     loss_sum = correct = total = 0
     for x, y in loader:
         x, y = x.to(DEVICE), y.to(DEVICE)
@@ -101,10 +102,22 @@ def evaluate(model: nn.Module, loader: DataLoader) -> tuple[float, float]:
     return loss_sum / max(total, 1), correct / max(total, 1)
 
 
+def smooth(values: list[float], window: int = 5) -> list[float]:
+    if len(values) < window:
+        return values
+    out = []
+    for i in range(len(values)):
+        lo = max(0, i - window + 1)
+        out.append(float(np.mean(values[lo : i + 1])))
+    return out
+
+
 def main() -> None:
     random.seed(config.SEED)
     np.random.seed(config.SEED)
     torch.manual_seed(config.SEED)
+    if DEVICE.type == "cuda":
+        torch.cuda.manual_seed_all(config.SEED)
 
     items = collect_items()
     if not items:
@@ -113,33 +126,39 @@ def main() -> None:
     train_items, val_items = split_items(items, config.CNN_TRAIN_RATIO)
     train_loader = DataLoader(
         PatchDataset(train_items, augment=True),
-        batch_size=config.CNN_BATCH_SIZE,
+        batch_size=min(config.CNN_BATCH_SIZE, len(train_items)),
         shuffle=True,
-        num_workers=2,
+        num_workers=0,
         pin_memory=DEVICE.type == "cuda",
     )
     val_loader = DataLoader(
         PatchDataset(val_items, augment=False),
-        batch_size=config.CNN_BATCH_SIZE,
+        batch_size=min(config.CNN_BATCH_SIZE, max(1, len(val_items))),
         shuffle=False,
-        num_workers=2,
+        num_workers=0,
     )
 
     model = SmallCNN(len(config.CLASSES)).to(DEVICE)
-    optimizer = torch.optim.Adam(model.parameters(), lr=config.CNN_LR)
-    criterion = nn.CrossEntropyLoss()
+    optimizer = torch.optim.AdamW(
+        model.parameters(),
+        lr=config.CNN_LR,
+        weight_decay=config.CNN_WEIGHT_DECAY,
+    )
+    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=config.CNN_EPOCHS)
+    criterion = nn.CrossEntropyLoss(label_smoothing=config.CNN_LABEL_SMOOTHING)
 
     config.ensure_dirs()
 
     history = {"train_loss": [], "val_loss": [], "train_acc": [], "val_acc": []}
-    best_acc = 0.0
+    best_val_loss = float("inf")
+    patience_left = config.CNN_EARLY_STOP_PATIENCE
 
     for epoch in range(1, config.CNN_EPOCHS + 1):
         model.train()
         running = correct = total = 0.0
         for x, y in tqdm(train_loader, desc=f"epoch {epoch}", leave=False):
             x, y = x.to(DEVICE), y.to(DEVICE)
-            optimizer.zero_grad()
+            optimizer.zero_grad(set_to_none=True)
             logits = model(x)
             loss = criterion(logits, y)
             loss.backward()
@@ -148,45 +167,57 @@ def main() -> None:
             correct += (logits.argmax(1) == y).sum().item()
             total += len(y)
 
+        scheduler.step()
         train_loss = running / max(total, 1)
         train_acc = correct / max(total, 1)
-        val_loss, val_acc = evaluate(model, val_loader)
+        val_loss, val_acc = evaluate(model, val_loader, criterion)
         for k, v in zip(
             ["train_loss", "val_loss", "train_acc", "val_acc"],
             [train_loss, val_loss, train_acc, val_acc],
         ):
             history[k].append(v)
-        print(f"epoch {epoch:02d}: train={train_acc:.3f} val={val_acc:.3f}")
+        print(f"epoch {epoch:02d}: loss={train_loss:.3f}/{val_loss:.3f} acc={train_acc:.3f}/{val_acc:.3f}")
 
-        if val_acc >= best_acc:
-            best_acc = val_acc
+        if val_loss <= best_val_loss:
+            best_val_loss = val_loss
+            patience_left = config.CNN_EARLY_STOP_PATIENCE
             torch.save(
                 {
                     "model": model.state_dict(),
                     "classes": config.CLASSES,
                     "input_size": config.CNN_INPUT_SIZE,
                     "val_acc": val_acc,
+                    "val_loss": val_loss,
+                    "epoch": epoch,
                 },
                 config.CNN_MODEL_PATH,
             )
+        else:
+            patience_left -= 1
+            if patience_left <= 0:
+                print(f"Early stop at epoch {epoch}")
+                break
 
     fig, ax = plt.subplots(1, 2, figsize=(10, 4))
-    ax[0].plot(history["train_loss"], label="train")
-    ax[0].plot(history["val_loss"], label="val")
+    ax[0].plot(smooth(history["train_loss"]), label="train", linewidth=2)
+    ax[0].plot(smooth(history["val_loss"]), label="val", linewidth=2)
     ax[0].set_title("Loss")
     ax[0].legend()
     ax[0].grid(True, alpha=0.3)
-    ax[1].plot(history["train_acc"], label="train")
-    ax[1].plot(history["val_acc"], label="val")
+    ax[1].plot(smooth(history["train_acc"]), label="train", linewidth=2)
+    ax[1].plot(smooth(history["val_acc"]), label="val", linewidth=2)
     ax[1].set_title("Accuracy")
-    ax[1].legend()
+    ax[1].legend(fontsize=8)
     ax[1].grid(True, alpha=0.3)
     fig.tight_layout()
     fig.savefig(config.OUTPUT_CNN / "cnn_training_curves.png", dpi=160)
     plt.close(fig)
 
+    ckpt = torch.load(config.CNN_MODEL_PATH, map_location="cpu", weights_only=False)
     report = {
-        "best_val_acc": best_acc,
+        "best_val_loss": best_val_loss,
+        "best_val_acc": ckpt.get("val_acc"),
+        "best_epoch": ckpt.get("epoch"),
         "train_size": len(train_items),
         "val_size": len(val_items),
         "classes": config.CLASSES,
@@ -195,7 +226,7 @@ def main() -> None:
     (config.OUTPUT_CNN / "cnn_training_report.json").write_text(
         json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8"
     )
-    print(f"Best val acc: {best_acc:.3f} -> {config.CNN_MODEL_PATH}")
+    print(f"Best val loss: {best_val_loss:.3f}, acc: {ckpt.get('val_acc', 0):.3f} -> {config.CNN_MODEL_PATH}")
 
 
 if __name__ == "__main__":

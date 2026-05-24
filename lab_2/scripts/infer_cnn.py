@@ -27,13 +27,7 @@ def load_model() -> tuple[SmallCNN, list[str], int]:
 
 
 def load_image(max_side: int) -> tuple[np.ndarray, float]:
-    with Image.open(config.IMAGE_PATH) as im:
-        im = im.convert("RGB")
-        w, h = im.size
-        scale = min(1.0, max_side / max(w, h))
-        if scale < 1.0:
-            im = im.resize((int(w * scale), int(h * scale)), Image.Resampling.LANCZOS)
-        return np.asarray(im).copy(), scale
+    return config.load_rgb_array(max_side)
 
 
 def predict_tile(model: SmallCNN, tile: np.ndarray, input_size: int) -> tuple[int, float]:

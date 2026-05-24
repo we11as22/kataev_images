@@ -16,13 +16,7 @@ Image.MAX_IMAGE_PIXELS = None
 
 
 def load_image(max_side: int) -> tuple[np.ndarray, float]:
-    with Image.open(config.IMAGE_PATH) as im:
-        im = im.convert("RGB")
-        w, h = im.size
-        scale = min(1.0, max_side / max(w, h))
-        if scale < 1.0:
-            im = im.resize((int(w * scale), int(h * scale)), Image.Resampling.LANCZOS)
-        return np.asarray(im).copy(), scale
+    return config.load_rgb_array(max_side)
 
 
 def box_xyxy(points: list[list[float]], scale: float) -> np.ndarray:
@@ -104,15 +98,24 @@ def main() -> None:
                 continue
             cls_idx = config.CLASSES.index(label)
             box = box_xyxy(shape["points"], scale)
+            x0, y0, x1, y1 = [int(v) for v in box]
+            x0, y0 = max(0, x0), max(0, y0)
+            x1, y1 = min(w, x1), min(h, y1)
             masks, iou_preds, _ = predictor.predict(box=box, multimask_output=False)
             mask = masks[0].astype(bool)
+            # keep segmentation inside the prompt box — avoids bleed to whole frame
+            region = np.zeros((h, w), dtype=bool)
+            region[y0:y1, x0:x1] = True
+            mask &= region
             score = float(iou_preds[0])
+            if score < 0.5:
+                continue
             score_volume[:, :, cls_idx] = np.maximum(score_volume[:, :, cls_idx], mask.astype(np.float32) * score)
             masks_debug.append({"label": label, "box": box.tolist(), "iou": score, "area": int(mask.sum())})
 
         class_map = score_volume.argmax(axis=2)
         score_map = score_volume.max(axis=2)
-        overlay = overlay_semantic(image, class_map, score_map, config.OVERLAY_ALPHA)
+        overlay = overlay_semantic(image, class_map, score_map, config.OVERLAY_ALPHA, min_score=0.35)
 
         Image.fromarray(image).save(config.OUTPUT_PREVIEW / "source_resized.jpg", quality=92)
         Image.fromarray(overlay).save(config.OUTPUT_SAM2 / "sam2_prompt_overlay.jpg", quality=92)
