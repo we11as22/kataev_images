@@ -1,6 +1,7 @@
-"""Сборка report.pdf без emacs/LaTeX — только matplotlib."""
+"""Сборка report.pdf."""
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -17,7 +18,7 @@ def add_title_page(pdf: PdfPages) -> None:
     fig.patch.set_facecolor("white")
     fig.text(0.5, 0.72, "МФТИ", ha="center", fontsize=16)
     fig.text(0.5, 0.58, "Лабораторная работа 2", ha="center", fontsize=18, weight="bold")
-    fig.text(0.5, 0.52, "Сегментация аэрофотоснимка (SAM 2.1)", ha="center", fontsize=14)
+    fig.text(0.5, 0.52, "Сегментация аэрофотоснимка", ha="center", fontsize=14)
     fig.text(0.5, 0.38, "Судаков Алексей", ha="center", fontsize=14)
     fig.text(0.5, 0.12, "Долгопрудный, 2026", ha="center", fontsize=12)
     pdf.savefig(fig)
@@ -25,7 +26,10 @@ def add_title_page(pdf: PdfPages) -> None:
 
 
 def add_section(pdf: PdfPages, title: str, text: str, images: list[Path]) -> None:
-    for i, img_path in enumerate(images):
+    existing = [p for p in images if p.exists()]
+    if not existing:
+        return
+    for i, img_path in enumerate(existing):
         fig = plt.figure(figsize=(8.27, 11.69))
         fig.patch.set_facecolor("white")
         y = 0.94
@@ -33,28 +37,21 @@ def add_section(pdf: PdfPages, title: str, text: str, images: list[Path]) -> Non
             fig.text(0.5, y, title, ha="center", fontsize=14, weight="bold")
             y -= 0.06
             for line in text.split("\n"):
-                fig.text(0.08, y, line, ha="left", va="top", fontsize=10, wrap=True)
+                fig.text(0.08, y, line, ha="left", va="top", fontsize=10)
                 y -= 0.045
-        img = Image.open(img_path)
         ax = fig.add_axes([0.06, 0.08, 0.88, 0.55 if i == 0 else 0.82])
-        ax.imshow(img)
+        ax.imshow(Image.open(img_path))
         ax.axis("off")
-        if len(images) > 1:
-            fig.text(0.5, 0.02, img_path.name, ha="center", fontsize=8, color="gray")
         pdf.savefig(fig)
         plt.close(fig)
 
 
-def add_text_page(pdf: PdfPages, title: str, paragraphs: list[str]) -> None:
-    fig = plt.figure(figsize=(8.27, 11.69))
-    fig.patch.set_facecolor("white")
-    fig.text(0.5, 0.94, title, ha="center", fontsize=14, weight="bold")
-    y = 0.86
-    for p in paragraphs:
-        fig.text(0.08, y, p, ha="left", va="top", fontsize=11, wrap=True)
-        y -= 0.08 + 0.02 * p.count("\n")
-    pdf.savefig(fig)
-    plt.close(fig)
+def cnn_metrics_text() -> str:
+    p = OUT / "cnn_training_report.json"
+    if not p.exists():
+        return ""
+    d = json.loads(p.read_text(encoding="utf-8"))
+    return f"Лучшая точность на val: {d.get('best_val_acc', 0):.3f}. Train/val: {d.get('train_size')}/{d.get('val_size')}."
 
 
 def main() -> None:
@@ -63,46 +60,60 @@ def main() -> None:
             "Исходные данные",
             "Снимок: грунт дорога пое зеленое и убранное.tiff (5472×3648).\n"
             "Классы: дорога, зелёное поле, убранное поле, кусты.\n"
-            "Разметка: labelme (annotations/source.json).",
+            "Разметка labelme: annotations/source.json.",
             [OUT / "source_preview.jpg", OUT / "annotations_preview.jpg"],
         ),
         (
-            "SAM 2.1 — сегментация по box-prompts",
-            "Модель sam2.1_hiera_tiny.pt. Box-prompts из labelme → карта классов\n"
-            "с полупрозрачной цветной наложенной сегментацией.",
-            [OUT / "sam2_prompt_overlay.jpg", OUT / "sam2_prompt_classes.png", OUT / "legend.png"],
+            "Датасет патчей",
+            "Патчи 128×128 из прямоугольников labelme (extract_patches.py).\n"
+            "Папка dataset/ — обучающая выборка для CNN.",
+            [OUT / "dataset_montage.png"],
         ),
         (
-            "SAM 2.1 — automatic mask generator",
-            "Automatic Mask Generator: маски по сетке точек на всём изображении.",
-            [OUT / "sam2_auto_overlay.jpg", OUT / "sam2_auto_top_masks.png"],
+            "Обучение CNN",
+            "Свёрточная сеть, классификация патчей по 4 классам.\n" + cnn_metrics_text(),
+            [OUT / "cnn_training_curves.png", OUT / "cnn_legend.png"],
+        ),
+        (
+            "Инференс CNN — сетка на всём изображении",
+            "Изображение разбито на квадратные тайлы; каждый тайл классифицируется.\n"
+            "Полупрозрачные квадраты — результат сегментации (как в задании).",
+            [OUT / "cnn_overlay_128.jpg", OUT / "cnn_overlay_64.jpg", OUT / "cnn_patch_size_compare.png"],
+        ),
+        (
+            "SAM 2.1 — дополнительно (box-prompts)",
+            "Модель sam2.1_hiera_tiny.pt, сегментация по рамкам labelme.",
+            [OUT / "sam2_prompt_overlay.jpg"],
         ),
         (
             "Влияние параметров",
-            "Сравнение pred_iou_thresh, stability_score_thresh, points_per_side.",
-            [OUT / "sam2_parameter_sweep.png"],
+            "CNN: сравнение размера тайла 64 vs 128.\n"
+            "SAM2: pred_iou_thresh, points_per_side.",
+            [OUT / "cnn_patch_size_compare.png", OUT / "sam2_parameter_sweep.png"],
         ),
+    ]
+
+    conclusions = [
+        "Датасет нарезан из labelme-разметки без готового датасета — патчи 128×128.",
+        "CNN классифицирует тайлы; на всём кадре получается карта поверхностей "
+        "с полупрозрачными цветными квадратами.",
+        "Тайлы 128×128 дают более грубую, но устойчивую карту; 64×64 — детальнее.",
+        "SAM 2.1 использован как дополнительная программа сегментации по box-prompts.",
     ]
 
     with PdfPages(PDF) as pdf:
         add_title_page(pdf)
         for title, text, images in sections:
-            existing = [p for p in images if p.exists()]
-            if not existing:
-                continue
-            add_section(pdf, title, text, existing)
-        add_text_page(
-            pdf,
-            "Выводы",
-            [
-                "SAM 2.1 по box-prompts из labelme даёт семантическую карту поверхностей "
-                "с полупрозрачной цветной сегментацией.",
-                "При увеличении порогов pred_iou и stability число масок уменьшается — "
-                "остаются более уверенные регионы.",
-                "Увеличение points_per_side повышает детализацию, но увеличивает время работы.",
-                "Датасет: 228 патчей 128×128 (папка dataset/), нарезанных из labelme-разметки.",
-            ],
-        )
+            add_section(pdf, title, text, images)
+        fig = plt.figure(figsize=(8.27, 11.69))
+        fig.patch.set_facecolor("white")
+        fig.text(0.5, 0.94, "Выводы", ha="center", fontsize=14, weight="bold")
+        y = 0.86
+        for p in conclusions:
+            fig.text(0.08, y, f"• {p}", ha="left", va="top", fontsize=11, wrap=True)
+            y -= 0.1
+        pdf.savefig(fig)
+        plt.close(fig)
 
     print(f"Saved {PDF} ({PDF.stat().st_size // 1024} KB)")
 

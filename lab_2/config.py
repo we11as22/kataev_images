@@ -2,12 +2,12 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 
-# Официальный репозиторий SAM 2 (pip install -e ...)
 SAM2_REPO = Path("/home/asudakov/projects/sharaga/kataev_sources/sam2")
 
 IMAGES = ROOT / "IMAGES"
 ANNOTATIONS = ROOT / "annotations"
 DATASET = ROOT / "dataset"
+MODELS = ROOT / "models"
 OUTPUT = ROOT / "output"
 CHECKPOINTS = ROOT / "checkpoints"
 
@@ -15,7 +15,6 @@ IMAGE_NAME = "грунт дорога пое зеленое и убранное.
 IMAGE_PATH = IMAGES / IMAGE_NAME
 LABELME_JSON = ANNOTATIONS / "source.json"
 
-# SAM 2.1 Hiera-Tiny — как в README официального репозитория
 SAM2_CONFIG = "configs/sam2.1/sam2.1_hiera_t.yaml"
 SAM2_CHECKPOINT = CHECKPOINTS / "sam2.1_hiera_tiny.pt"
 
@@ -31,8 +30,17 @@ CLASS_COLORS = {
     "Кусты": (30, 100, 30),
 }
 
+# CNN
+CNN_EPOCHS = 30
+CNN_BATCH_SIZE = 32
+CNN_LR = 1e-3
+CNN_TRAIN_RATIO = 0.75
+CNN_MODEL_PATH = MODELS / "cnn_best.pt"
+CNN_INPUT_SIZE = 128
+
 INFER_MAX_SIDE = 2048
-OVERLAY_ALPHA = 0.45
+OVERLAY_ALPHA = 0.5
+CNN_TILE_SIZES = [64, 128]
 
 AMG_POINTS_PER_SIDE = 24
 AMG_PRED_IOU_THRESH = 0.82

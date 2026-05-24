@@ -91,7 +91,25 @@ def main() -> None:
     (config.OUTPUT / "dataset_summary.json").write_text(
         json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8"
     )
+    _save_montage(stats)
     print("Saved patches:", stats, "total", summary["total"])
+
+
+def _save_montage(stats: dict[str, int]) -> None:
+    import matplotlib.pyplot as plt
+
+    fig, axes = plt.subplots(1, len(config.CLASSES), figsize=(12, 3))
+    for ax, cls in zip(axes, config.CLASSES):
+        files = sorted((config.DATASET / cls).glob("*.jpg"))
+        if files:
+            img = Image.open(files[len(files) // 2])
+            ax.imshow(img)
+        ax.set_title(f"{cls}\n({stats[cls]})", fontsize=9)
+        ax.axis("off")
+    fig.suptitle(f"Примеры патчей {config.PATCH_SIZE}×{config.PATCH_SIZE}", fontsize=11)
+    fig.tight_layout()
+    fig.savefig(config.OUTPUT / "dataset_montage.png", dpi=160)
+    plt.close(fig)
 
 
 if __name__ == "__main__":
