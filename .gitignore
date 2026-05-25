@@ -11,6 +11,10 @@ venv/
 lab_2/checkpoints/*.pt
 lab_2/sam/checkpoints/*.pt
 
+# Импортный архив датасета (не нужен в репозитории)
+lab_2/segmentation_64_dataset.zip
+lab_2/segmentation_64_dataset/
+
 # OS / editor
 .DS_Store
 Thumbs.db

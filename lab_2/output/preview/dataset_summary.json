@@ -1,8 +1,7 @@
 {
-  "source": "segmentation_64_dataset",
   "image": "грунт дорога пое зеленое и убранное.tiff",
   "patch_size": 64,
-  "mode": "imported_manual_dataset",
+  "annotations": "annotations/source.json",
   "infer_scale": 0.3742690058479532,
   "full_size": [
     5472,

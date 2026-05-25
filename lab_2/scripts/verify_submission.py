@@ -50,7 +50,6 @@ def main() -> int:
     # исходники
     need(config.IMAGE_PATH, "исходный снимок")
     need(config.LABELME_JSON, "разметка labelme")
-    need(config.DATASET_ZIP, "архив датасета")
 
     meta = json.loads(config.LABELME_JSON.read_text(encoding="utf-8"))
     n = len(meta.get("shapes", []))
@@ -77,7 +76,7 @@ def main() -> int:
     for p, name in [
         (config.OUTPUT_CNN / "cnn_overlay_64.jpg", "CNN overlay 64"),
         (config.OUTPUT_CNN / "cnn_training_curves.png", "кривые обучения"),
-        (config.OUTPUT_PREVIEW / "overview_rectangles_64.jpg", "разметка overview"),
+        (config.OUTPUT_PREVIEW / "annotations_preview.jpg", "разметка"),
         (config.OUTPUT_PREVIEW / "dataset_montage.png", "montage датасета"),
         (config.SAM_OUTPUT / "sam2_prompt_overlay.jpg", "SAM overlay"),
         (config.SAM_OUTPUT / "sam2_parameter_sweep.png", "SAM sweep"),

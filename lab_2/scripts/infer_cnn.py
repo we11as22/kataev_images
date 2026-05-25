@@ -77,7 +77,6 @@ def run(tile_size: int, out_name: str) -> dict:
         image, model, classes, tile_size, input_size, config.OVERLAY_ALPHA
     )
     out_path = config.OUTPUT_CNN / out_name
-    Image.fromarray(image).save(config.OUTPUT_PREVIEW / "source_resized.jpg", quality=92)
     Image.fromarray(overlay).save(out_path, quality=92)
     return {
         "tile_size": tile_size,

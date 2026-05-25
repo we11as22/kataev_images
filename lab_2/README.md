@@ -15,11 +15,10 @@ lab_2/
 ├── report.pdf
 ├── IMAGES/                 # исходный .tiff (5472×3648)
 ├── annotations/source.json # labelme, 39 прямоугольников 64×64
-├── dataset/                # патчи для обучения CNN
+├── dataset/                # патчи 64×64 для обучения CNN
 ├── models/cnn_best.pt
-├── segmentation_64_dataset/  # размеченный датасет
 ├── output/
-│   ├── preview/            # разметка, montage
+│   ├── preview/            # превью разметки, montage
 │   └── cnn/                # overlay, кривые, метрики
 └── sam/
     ├── run_sam.sh
@@ -54,7 +53,7 @@ python scripts/verify_submission.py
 
 ## Датасет
 
-39 патчей 64×64 из `segmentation_64_dataset.zip` (ручная разметка и проверка).
+39 патчей 64×64 в `dataset/` (ручная разметка в `annotations/source.json`).
 
 | Класс | Патчей |
 |-------|--------|

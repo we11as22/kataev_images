@@ -124,7 +124,7 @@ def main() -> None:
 
     items = collect_items()
     if not items:
-        raise RuntimeError("dataset/ пуст — сначала запустите extract_patches.py")
+        raise RuntimeError("dataset/ пуст — сначала запустите prepare_data.py и проверьте dataset/")
 
     train_items, val_items = split_items(items, config.CNN_TRAIN_RATIO)
     train_loader = DataLoader(

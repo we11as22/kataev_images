@@ -22,8 +22,8 @@ export PYTHONPATH="$(pwd):$(pwd)/scripts"
 
 mkdir -p output/preview output/cnn dataset models
 
-echo "=== 1/4: импорт датасета 64×64 ==="
-python scripts/import_segmentation_64_dataset.py
+echo "=== 1/4: проверка данных и превью ==="
+python scripts/prepare_data.py
 
 echo "=== 2/4: обучение CNN ==="
 python scripts/train_cnn.py

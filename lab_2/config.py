@@ -39,9 +39,6 @@ CLASS_COLORS = {
     "Грунт": (140, 90, 50),
 }
 
-DATASET_SOURCE = ROOT / "segmentation_64_dataset"
-DATASET_ZIP = ROOT / "segmentation_64_dataset.zip"
-
 CNN_EPOCHS = 50
 CNN_BATCH_SIZE = 16
 CNN_LR = 5e-4
