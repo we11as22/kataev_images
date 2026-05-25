@@ -1,79 +1,47 @@
 # Lab 2 — сегментация аэрофотоснимка
 
-CNN-классификация патчей + SAM 2.1 (дополнительно).  
-Отчёт: [report.pdf](report.pdf)
+CNN-классификация патчей + SAM 2.1 (отдельная папка `sam/`).
+
+**Отчёты для сдачи:**
+- [`report.pdf`](report.pdf) — CNN-сегментация
+- [`sam/report.pdf`](sam/report.pdf) — SAM 2.1
 
 ## Структура
 
 ```
 lab_2/
-├── README.md
-├── config.py              # пути и гиперпараметры
-├── requirements.txt       # numpy, torch, matplotlib, …
-├── setup.sh               # deps + SAM2 + скачивание чекпоинта
-├── run_lab.sh             # полный пайплайн
+├── run_all.sh              # CNN + SAM + оба отчёта
+├── run_lab.sh              # только CNN → report.pdf
 ├── report.pdf
-├── IMAGES/                # исходный .tiff
-├── annotations/           # labelme source.json
-├── dataset/               # патчи 128×128 (генерируется)
-├── models/                # cnn_best.pt (генерируется)
-├── checkpoints/           # sam2.1_hiera_tiny.pt (скачать, не в git)
-├── scripts/
-│   ├── extract_patches.py
-│   ├── train_cnn.py
-│   ├── infer_cnn.py
-│   ├── build_report.py
-│   ├── sam2_loader.py
-│   ├── sam2_prompt_segment.py
-│   ├── sam2_auto_segment.py
-│   └── sam2_sweep.py
-└── output/
-    ├── preview/           # исходник, разметка, montage
-    ├── cnn/               # обучение и overlay-сетка
-    └── sam2/              # SAM 2.1 результаты
+├── IMAGES/                 # исходный .tiff (5472×3648)
+├── annotations/source.json # labelme, 39 прямоугольников 64×64
+├── dataset/                # патчи для обучения CNN
+├── models/cnn_best.pt
+├── segmentation_64_dataset/  # размеченный датасет
+├── output/
+│   ├── preview/            # разметка, montage
+│   └── cnn/                # overlay, кривые, метрики
+└── sam/
+    ├── run_sam.sh
+    ├── report.pdf
+    ├── checkpoints/        # sam2.1_hiera_tiny.pt (скачать, не в git)
+    └── output/
 ```
 
-## Быстрый старт (с нуля)
+## Воспроизведение с нуля
 
 ```bash
-git clone https://github.com/we11as22/kataev_images.git
-cd kataev_images/lab_2
-
-python -m venv .venv
-source .venv/bin/activate
+cd lab_2
+python -m venv .venv && source .venv/bin/activate
 pip install -U pip
 
-# SAM 2 (один раз): клон рядом с репозиторием или в любое место
 git clone https://github.com/facebookresearch/segment-anything-2.git ../segment-anything-2
-export SAM2_REPO="../segment-anything-2"   # опционально
+pip install -e ../segment-anything-2
 
-bash setup.sh    # pip deps, pip install -e SAM2, wget checkpoint
-bash run_lab.sh  # полный пайплайн → report.pdf
+bash setup.sh      # deps + чекпоинт SAM
+bash run_all.sh    # всё → report.pdf + sam/report.pdf
+python scripts/verify_submission.py
 ```
-
-**Важно:** перед запуском SAM выполняется `unset PYTHONPATH` — старые копии `sam2` в `PYTHONPATH` ломают импорт.
-
-## Чекпоинт SAM 2.1
-
-Файл `checkpoints/sam2.1_hiera_tiny.pt` (~149 MB) не в git (лимит GitHub).
-
-```bash
-bash checkpoints/download.sh
-```
-
-Или вручную: [sam2.1_hiera_tiny.pt](https://dl.fbaipublicfiles.com/segment_anything_2/092824/sam2.1_hiera_tiny.pt)
-
-## Что делает run_lab.sh
-
-| Шаг | Скрипт | Результат |
-|-----|--------|-----------|
-| 1 | `extract_patches.py` | `dataset/`, `output/preview/` |
-| 2 | `train_cnn.py` | `models/cnn_best.pt`, кривые обучения |
-| 3 | `infer_cnn.py` | `output/cnn/cnn_overlay_{64,128}.jpg` |
-| 4 | `sam2_prompt_segment.py` | сегментация по box из labelme |
-| 5 | `sam2_auto_segment.py` | automatic mask generator |
-| 6 | `sam2_sweep.py` | сравнение параметров AMG |
-| 7 | `build_report.py` | `report.pdf` |
 
 ## Классы
 
@@ -82,23 +50,26 @@ bash checkpoints/download.sh
 | Дорога | оранжевый |
 | Зелёное поле | зелёный |
 | Убранное поле | бежевый |
-| Кусты | тёмно-зелёный |
+| Грунт | коричневый |
 
-## Только CNN (без SAM)
+## Датасет
 
-```bash
-unset PYTHONPATH
-export PYTHONPATH="$(pwd):$(pwd)/scripts"
-python scripts/extract_patches.py
-python scripts/train_cnn.py
-python scripts/infer_cnn.py --compare-all
-python scripts/build_report.py
-```
+39 патчей 64×64 из `segmentation_64_dataset.zip` (ручная разметка и проверка).
 
-## Зависимости
+| Класс | Патчей |
+|-------|--------|
+| Дорога | 10 |
+| Зелёное поле | 12 |
+| Убранное поле | 12 |
+| Грунт | 5 |
 
-- Python 3.10+
-- PyTorch + torchvision (CPU или CUDA)
-- [segment-anything-2](https://github.com/facebookresearch/segment-anything-2) — `pip install -e`
+## Что в отчётах
 
-Остальное: `pip install -r requirements.txt`
+**report.pdf (CNN):** исходный снимок, разметка, датасет, кривые обучения, overlay-сетка 64×64 и 128×128, сравнение размеров тайла.
+
+**sam/report.pdf:** box-prompts SAM 2.1 по разметке, automatic mask generator, сравнение параметров AMG.
+
+## Примечания
+
+- Чекпоинт SAM (~149 MB) не в git: `bash sam/checkpoints/download.sh`
+- Перед SAM: `unset PYTHONPATH` (делает `run_sam.sh` автоматически)

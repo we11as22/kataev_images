@@ -7,8 +7,9 @@ __pycache__/
 .venv/
 venv/
 
-# SAM 2 checkpoints (>100 MB, GitHub limit) — download locally, see lab_2/checkpoints/README.md
+# SAM 2 checkpoints (>100 MB) — bash lab_2/sam/checkpoints/download.sh
 lab_2/checkpoints/*.pt
+lab_2/sam/checkpoints/*.pt
 
 # OS / editor
 .DS_Store

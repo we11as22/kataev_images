@@ -66,12 +66,14 @@ class SmallCNN(nn.Module):
 def collect_items() -> list[tuple[Path, int]]:
     items = []
     for i, cls in enumerate(config.CLASSES):
-        for path in sorted((config.DATASET / cls).glob("*.jpg")):
-            items.append((path, i))
+        for path in sorted((config.DATASET / cls).iterdir()):
+            if path.suffix.lower() in {".jpg", ".jpeg", ".png"}:
+                items.append((path, i))
     return items
 
 
 def split_items(items: list[tuple[Path, int]], ratio: float):
+    """Stratified split: at least 1 val sample per class when possible."""
     rng = random.Random(config.SEED)
     by_class: dict[int, list] = {}
     for item in items:
@@ -79,11 +81,12 @@ def split_items(items: list[tuple[Path, int]], ratio: float):
     train, val = [], []
     for cls_items in by_class.values():
         rng.shuffle(cls_items)
-        n_train = max(2, int(len(cls_items) * ratio))
-        if n_train >= len(cls_items):
-            n_train = max(1, len(cls_items) - 1)
-        train.extend(cls_items[:n_train])
-        val.extend(cls_items[n_train:])
+        if len(cls_items) <= 2:
+            n_val = 1
+        else:
+            n_val = max(1, min(len(cls_items) - 2, round(len(cls_items) * (1 - ratio))))
+        val.extend(cls_items[:n_val])
+        train.extend(cls_items[n_val:])
     rng.shuffle(train)
     rng.shuffle(val)
     return train, val
@@ -150,6 +153,7 @@ def main() -> None:
     config.ensure_dirs()
 
     history = {"train_loss": [], "val_loss": [], "train_acc": [], "val_acc": []}
+    best_val_acc = -1.0
     best_val_loss = float("inf")
     patience_left = config.CNN_EARLY_STOP_PATIENCE
 
@@ -178,7 +182,11 @@ def main() -> None:
             history[k].append(v)
         print(f"epoch {epoch:02d}: loss={train_loss:.3f}/{val_loss:.3f} acc={train_acc:.3f}/{val_acc:.3f}")
 
-        if val_loss <= best_val_loss:
+        improved = val_acc > best_val_acc or (
+            abs(val_acc - best_val_acc) < 1e-9 and val_loss < best_val_loss
+        )
+        if improved:
+            best_val_acc = val_acc
             best_val_loss = val_loss
             patience_left = config.CNN_EARLY_STOP_PATIENCE
             torch.save(
@@ -192,7 +200,7 @@ def main() -> None:
                 },
                 config.CNN_MODEL_PATH,
             )
-        else:
+        elif epoch >= config.CNN_MIN_EPOCHS:
             patience_left -= 1
             if patience_left <= 0:
                 print(f"Early stop at epoch {epoch}")
@@ -226,7 +234,7 @@ def main() -> None:
     (config.OUTPUT_CNN / "cnn_training_report.json").write_text(
         json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8"
     )
-    print(f"Best val loss: {best_val_loss:.3f}, acc: {ckpt.get('val_acc', 0):.3f} -> {config.CNN_MODEL_PATH}")
+    print(f"Best epoch {ckpt.get('epoch')}: val acc={ckpt.get('val_acc', 0):.3f}, loss={best_val_loss:.3f} -> {config.CNN_MODEL_PATH}")
 
 
 if __name__ == "__main__":

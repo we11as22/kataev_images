@@ -13,39 +13,45 @@ MODELS = ROOT / "models"
 OUTPUT = ROOT / "output"
 OUTPUT_PREVIEW = OUTPUT / "preview"
 OUTPUT_CNN = OUTPUT / "cnn"
-OUTPUT_SAM2 = OUTPUT / "sam2"
-CHECKPOINTS = ROOT / "checkpoints"
+SAM_ROOT = ROOT / "sam"
+SAM_OUTPUT = SAM_ROOT / "output"
+SAM_CHECKPOINTS = SAM_ROOT / "checkpoints"
+CHECKPOINTS = SAM_CHECKPOINTS  # legacy alias
 
 IMAGE_NAME = "грунт дорога пое зеленое и убранное.tiff"
 IMAGE_PATH = IMAGES / IMAGE_NAME
 LABELME_JSON = ANNOTATIONS / "source.json"
 
 SAM2_CONFIG = "configs/sam2.1/sam2.1_hiera_t.yaml"
-SAM2_CHECKPOINT = CHECKPOINTS / "sam2.1_hiera_tiny.pt"
+SAM2_CHECKPOINT = SAM_CHECKPOINTS / "sam2.1_hiera_tiny.pt"
 SAM2_CHECKPOINT_URL = (
     "https://dl.fbaipublicfiles.com/segment_anything_2/092824/sam2.1_hiera_tiny.pt"
 )
 
-PATCH_SIZE = 128
+PATCH_SIZE = 64
 SEED = 42
 
-CLASSES = ["Дорога", "Зелёное поле", "Убранное поле", "Кусты"]
+CLASSES = ["Дорога", "Зелёное поле", "Убранное поле", "Грунт"]
 CLASS_COLORS = {
     "Дорога": (210, 120, 40),
     "Зелёное поле": (40, 160, 50),
     "Убранное поле": (200, 190, 150),
-    "Кусты": (30, 100, 30),
+    "Грунт": (140, 90, 50),
 }
+
+DATASET_SOURCE = ROOT / "segmentation_64_dataset"
+DATASET_ZIP = ROOT / "segmentation_64_dataset.zip"
 
 CNN_EPOCHS = 50
 CNN_BATCH_SIZE = 16
 CNN_LR = 5e-4
 CNN_WEIGHT_DECAY = 1e-4
-CNN_LABEL_SMOOTHING = 0.05
+CNN_LABEL_SMOOTHING = 0.02
 CNN_TRAIN_RATIO = 0.8
-CNN_EARLY_STOP_PATIENCE = 12
+CNN_EARLY_STOP_PATIENCE = 15
+CNN_MIN_EPOCHS = 12
 CNN_MODEL_PATH = MODELS / "cnn_best.pt"
-CNN_INPUT_SIZE = 128
+CNN_INPUT_SIZE = 64
 
 INFER_MAX_SIDE = 2048
 OVERLAY_ALPHA = 0.5
@@ -63,8 +69,8 @@ def ensure_dirs() -> None:
         OUTPUT,
         OUTPUT_PREVIEW,
         OUTPUT_CNN,
-        OUTPUT_SAM2,
-        CHECKPOINTS,
+        SAM_OUTPUT,
+        SAM_CHECKPOINTS,
     ):
         path.mkdir(parents=True, exist_ok=True)
 

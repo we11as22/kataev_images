@@ -10,6 +10,7 @@ import torch
 from PIL import Image, ImageDraw
 
 import config
+from plot_utils import save_class_legend
 from train_cnn import SmallCNN
 
 Image.MAX_IMAGE_PIXELS = None
@@ -66,13 +67,7 @@ def overlay_grid(
 
 
 def draw_legend(path) -> None:
-    preview = Image.new("RGB", (320, 140), "white")
-    draw = ImageDraw.Draw(preview)
-    for i, cls in enumerate(config.CLASSES):
-        y = 10 + i * 32
-        draw.rectangle([10, y, 34, y + 22], fill=config.CLASS_COLORS[cls])
-        draw.text((44, y + 2), cls, fill=(0, 0, 0))
-    preview.save(path)
+    save_class_legend(path)
 
 
 def run(tile_size: int, out_name: str) -> dict:

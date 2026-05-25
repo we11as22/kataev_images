@@ -41,7 +41,9 @@ if ! python -c "import sam2" 2>/dev/null; then
 fi
 
 echo "=== SAM 2.1 checkpoint ==="
-bash checkpoints/download.sh
+bash sam/checkpoints/download.sh
 
 echo
-echo "Setup OK. Запуск: bash run_lab.sh"
+echo "Setup OK."
+echo "  bash run_all.sh                    # CNN + SAM + отчёты"
+echo "  python scripts/verify_submission.py # проверка перед сдачей"
